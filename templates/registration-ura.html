@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Регистрация — Yume
+{% endblock %}
+
+{% block content %}
+
+<section>
+
+    <div class="registration-card">
+
+        <div class="registration-decoration">
+            ♡
+        </div>
+
+        <h1 class="registration-title">
+            Регистрация
+        </h1>
+
+
+        {% if error %}
+            <div class="registration-error">
+                {{ error }}
+            </div>
+        {% endif %}
+
+       <p> 
+        Вы успешно зарегестрированы!
+       </p>
+</section>
+
+{% endblock %}

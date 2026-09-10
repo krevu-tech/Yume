@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+{% block title %}Yume — пространство{% endblock %}
+{% block head %}<script src="{{ url_for('static', filename='home.js') }}" defer></script>{% endblock %}
+{% block body %}
+<header class="app-header">
+<a href="{{ url_for('home') }}" class="app-logo"><span class="logo-mark">y</span><span>yume</span></a>
+<nav class="app-nav">
+<button class="nav-tab active" data-tab="tasks"><span>✓</span>Задачи</button>
+<button class="nav-tab" data-tab="pomodoro"><span>◷</span>Pomodoro</button>
+<button class="nav-tab" data-tab="mood"><span>☁</span>Настроение</button>
+</nav><div class="header-space"></div>
+</header>
+<main class="dashboard">
+<section class="tab-page active" id="tasks">
+<div class="section-heading"><div><p class="eyebrow">today</p><h1>Ваши задачи</h1><p>Разложите день на маленькие шаги.</p></div>
+<button class="add-task-button" id="open-task-modal">+ Добавить задачу</button></div>
+<div class="task-list" id="task-list"><div class="empty-state" id="empty-state"><div class="empty-icon">✦</div><h2>Пока здесь тихо</h2><p>Добавьте первую задачу и начните с малого.</p></div></div>
+</section>
+<section class="tab-page" id="pomodoro">
+<div class="section-heading centered-heading"><div><p class="eyebrow">focus mode</p><h1>Pomodoro</h1><p>25 минут концентрации. Потом немного воздуха.</p></div></div>
+<div class="pomodoro-wrap"><div class="timer-ring" id="timer-ring"><div class="timer-inner"><span class="timer-label" id="timer-label">Фокус</span><strong id="timer-display">25:00</strong><span class="timer-round" id="timer-round">1 / 4</span></div></div>
+<div class="timer-controls"><button class="secondary-button" id="reset-timer">Сбросить</button><button class="primary-timer-button" id="toggle-timer">Начать</button></div>
+<div class="timer-dots"><span class="timer-dot active"></span><span class="timer-dot"></span><span class="timer-dot"></span><span class="timer-dot"></span></div></div>
+</section>
+<section class="tab-page" id="mood"><div class="section-heading centered-heading"><div><p class="eyebrow">how are you?</p><h1>Настроение</h1><p>Эта вкладка пока ждёт своего настроения 🌱</p></div></div>
+<div class="coming-soon-card"><div>☁</div><h2>Скоро здесь будет трекер настроения</h2><p>Будем отмечать состояние, смотреть историю и замечать маленькие изменения.</p></div></section>
+</main>
+<div class="modal-overlay" id="task-modal"><div class="modal-card"><button class="modal-close" id="close-task-modal">×</button><p class="eyebrow">new task</p><h2>Добавить задачу</h2><p>Что хочется сделать сегодня?</p>
+<form id="task-form"><input id="task-input" type="text" placeholder="Например: сделать домашку" maxlength="120" required><button type="submit">Добавить →</button></form></div></div>
+{% endblock %}

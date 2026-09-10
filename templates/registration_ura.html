@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+{% block title %}Yume — готово{% endblock %}
+{% block body %}
+<main class="success-page"><section class="success-card">
+<div class="success-icon">✓</div><p class="eyebrow">yume</p><h1>Готово!</h1>
+<p>Ваше пространство создано.<br>Сейчас перенесём вас в Yume...</p>
+<div class="loader"><span></span></div><small>Переход через несколько секунд</small>
+</section></main>
+<script>setTimeout(() => location.href="{{ url_for('home') }}", 2500);</script>
+{% endblock %}
