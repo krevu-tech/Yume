@@ -1,0 +1,73 @@
+{% extends "layout.html" %}
+{% block title %}Yume — обновления{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='updates.css') }}">{% endblock %}
+{% block body %}
+<header class="updates-header">
+  <a href="{{ url_for('home') if session.get('user_id') else url_for('main') }}" class="updates-logo"><span class="updates-logo-mark">y</span><span>yume</span></a>
+  <a class="updates-back" href="{{ url_for('home') if session.get('user_id') else url_for('main') }}">← Назад</a>
+</header>
+<main class="updates-page">
+  <section class="updates-hero">
+    <p class="updates-kicker">CHANGELOG</p>
+    <h1>Обновления и девлоги</h1>
+    <p>Что нового в Yume.</p>
+  </section>
+
+  <section class="updates-group" aria-labelledby="release-title">
+    <div class="updates-section-title"><span class="updates-dot"></span><h2 id="release-title">Крупные обновления</h2></div>
+    <article class="update-card featured">
+      <div class="update-meta"><span class="update-version">v1.3</span><span>Защита аккаунтов</span></div>
+      <h3>Безопасная регистрация и вход</h3>
+      <ul>
+        <li>Пароли хранятся в виде хешей.</li>
+        <li>Аккаунты и записи настроения сохраняются в SQLite.</li>
+        <li>Добавлены сессии, CSRF-защита и закрытые страницы.</li>
+        <li>Подготовлен перенос старых аккаунтов из JSON.</li>
+      </ul>
+    </article>
+    <article class="update-card">
+      <div class="update-meta"><span class="update-version">v1.2</span><span>Самопонимание</span></div>
+      <h3>Трекер настроения</h3>
+      <ul>
+        <li>Шесть состояний с иконками Flaticon.</li>
+        <li>Заметки к каждому дню и сохранение записей.</li>
+        <li>Календарь, график динамики и круговая диаграмма.</li>
+      </ul>
+    </article>
+    <article class="update-card">
+      <div class="update-meta"><span class="update-version">v1.1</span><span>Персонализация</span></div>
+      <h3>Темы оформления</h3>
+      <ul>
+        <li>16 сочетаний: восемь цветов в светлом и тёмном режимах.</li>
+        <li>Выбранная тема сохраняется в браузере.</li>
+      </ul>
+    </article>
+    <article class="update-card">
+      <div class="update-meta"><span class="update-version">v1.0</span><span>Основа Yume</span></div>
+      <h3>Задачи и Pomodoro</h3>
+      <ul>
+        <li>Список задач с добавлением и отметкой выполнения.</li>
+        <li>Таймер фокусировки Pomodoro с короткими перерывами.</li>
+        <li>Обновлённая регистрация и отдельная страница входа.</li>
+      </ul>
+    </article>
+  </section>
+
+  <section class="updates-group devlog-group" aria-labelledby="devlog-title">
+    <div class="updates-section-title"><span class="updates-dot"></span><h2 id="devlog-title">Девлог</h2></div>
+    <article class="devlog-entry">
+      <time datetime="2026-10-25">25.10.2026</time>
+      <div><h3>Безопасность и порядок</h3><p>Переводим аккаунты на SQLite, добавляем хеширование паролей и защиту сессий. Интерфейс очищен от лишних пояснений — оставлено только необходимое.</p></div>
+    </article>
+    <article class="devlog-entry">
+      <time datetime="2026-10-24">24.10.2026</time>
+      <div><h3>Настроение стало нагляднее</h3><p>Добавлены календарь записей, заметки, статистика и графики, чтобы можно было замечать изменения со временем.</p></div>
+    </article>
+    <article class="devlog-entry">
+      <time datetime="2026-10-24">24.10.2026</time>
+      <div><h3>Yume подстраивается под тебя</h3><p>Появились цветовые темы в светлом и тёмном вариантах. Основной экран задач и Pomodoro сохранён.</p></div>
+    </article>
+  </section>
+  <footer class="updates-footer"><a href="{{ url_for('home') if session.get('user_id') else url_for('main') }}">Yume</a><span>·</span><span>Обновления проекта</span></footer>
+</main>
+{% endblock %}

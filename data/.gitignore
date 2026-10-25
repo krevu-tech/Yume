@@ -1,0 +1,5 @@
+users.json
+moods.json
+yume.db
+.secret_key
+*.sqlite3

@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block title %}Вход — Yume{% endblock %}
+{% block body %}
+<main class="auth-page"><section class="auth-card">
+<a class="back-link" href="{{ url_for('main') }}">← назад</a>
+<h1>Вход</h1>
+{% if error %}<div class="error-message">{{ error }}</div>{% endif %}
+<form method="post" class="auth-form">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+<div class="form-field"><label for="login">Логин</label><input id="login" type="text" name="login" placeholder="Логин" autocomplete="username" required></div>
+<div class="form-field"><label for="password">Пароль</label><input id="password" type="password" name="password" placeholder="Пароль" autocomplete="current-password" required></div>
+<button type="submit">Войти</button>
+</form>
+<p class="auth-footer">Ещё нет аккаунта? <a href="{{ url_for('registr') }}">Создать аккаунт</a></p>
+</section></main>
+{% endblock %}

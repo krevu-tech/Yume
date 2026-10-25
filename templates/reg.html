@@ -3,14 +3,14 @@
 {% block body %}
 <main class="auth-page"><section class="auth-card">
 <a class="back-link" href="{{ url_for('main') }}">← назад</a>
-<p class="eyebrow">добро пожаловать в yume</p><h1>Создайте аккаунт.</h1>
-<p class="auth-subtitle">Небольшое пространство, где можно сосредоточиться на делах и не забывать о себе.</p>
+<h1>Регистрация</h1>
 {% if error %}<div class="error-message">{{ error }}</div>{% endif %}
 <form method="post" class="auth-form">
-<div class="form-field"><label for="login">Логин</label><input id="login" type="text" name="login" placeholder="Введите логин" required></div>
-<div class="form-field"><label for="password">Пароль</label><input id="password" type="password" name="password" placeholder="Введите пароль" required></div>
-<button type="submit">Войти в Yume →</button>
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+<div class="form-field"><label for="login">Логин</label><input id="login" type="text" name="login" placeholder="Логин" minlength="3" maxlength="32" autocomplete="username" required></div>
+<div class="form-field"><label for="password">Пароль</label><input id="password" type="password" name="password" placeholder="Пароль" minlength="8" maxlength="128" autocomplete="new-password" required></div>
+<button type="submit">Зарегистрироваться</button>
 </form>
-<p class="auth-footer">Уже есть аккаунт? <a href="#">Войти</a></p>
+<p class="auth-footer">Уже есть аккаунт? <a href="{{ url_for('login') }}">Войти</a></p>
 </section></main>
 {% endblock %}

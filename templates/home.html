@@ -1,30 +1,56 @@
 {% extends "layout.html" %}
 {% block title %}Yume — пространство{% endblock %}
-{% block head %}<script src="{{ url_for('static', filename='home.js') }}" defer></script>{% endblock %}
+{% block head %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>window.YUME_USER_KEY = {{ username|tojson }};</script>
+<script src="{{ url_for('static', filename='home.js') }}" defer></script>
+{% endblock %}
 {% block body %}
 <header class="app-header">
 <a href="{{ url_for('home') }}" class="app-logo"><span class="logo-mark">y</span><span>yume</span></a>
 <nav class="app-nav">
-<button class="nav-tab active" data-tab="tasks"><span>✓</span>Задачи</button>
-<button class="nav-tab" data-tab="pomodoro"><span>◷</span>Pomodoro</button>
-<button class="nav-tab" data-tab="mood"><span>☁</span>Настроение</button>
-</nav><div class="header-space"></div>
+<button class="nav-tab active" data-tab="tasks"><i class="fi fi-rr-check-circle"></i><span>Задачи</span></button>
+<button class="nav-tab" data-tab="pomodoro"><i class="fi fi-rr-clock"></i><span>Pomodoro</span></button>
+<button class="nav-tab" data-tab="mood"><i class="fi fi-rr-smile"></i><span>Настроение</span></button>
+</nav>
+<div class="header-actions"><a class="updates-nav-link" href="{{ url_for('updates') }}">Девлог</a><button class="theme-open" id="theme-open" type="button" aria-label="Выбрать тему"><i class="fi fi-rr-palette"></i><span>Тема</span></button><form method="post" action="{{ url_for('logout') }}" class="logout-form"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button type="submit" class="logout-button">Выйти</button></form></div>
 </header>
 <main class="dashboard">
 <section class="tab-page active" id="tasks">
-<div class="section-heading"><div><p class="eyebrow">today</p><h1>Ваши задачи</h1><p>Разложите день на маленькие шаги.</p></div>
+<div class="section-heading"><div><p class="eyebrow">today</p><h1>Ваши задачи</h1></div>
 <button class="add-task-button" id="open-task-modal">+ Добавить задачу</button></div>
-<div class="task-list" id="task-list"><div class="empty-state" id="empty-state"><div class="empty-icon">✦</div><h2>Пока здесь тихо</h2><p>Добавьте первую задачу и начните с малого.</p></div></div>
+<div class="task-list" id="task-list"><div class="empty-state" id="empty-state"><div class="empty-icon">✦</div><h2>Пока здесь тихо</h2></div></div>
 </section>
 <section class="tab-page" id="pomodoro">
-<div class="section-heading centered-heading"><div><p class="eyebrow">focus mode</p><h1>Pomodoro</h1><p>25 минут концентрации. Потом немного воздуха.</p></div></div>
+<div class="section-heading centered-heading"><div><p class="eyebrow">focus mode</p><h1>Pomodoro</h1></div></div>
 <div class="pomodoro-wrap"><div class="timer-ring" id="timer-ring"><div class="timer-inner"><span class="timer-label" id="timer-label">Фокус</span><strong id="timer-display">25:00</strong><span class="timer-round" id="timer-round">1 / 4</span></div></div>
 <div class="timer-controls"><button class="secondary-button" id="reset-timer">Сбросить</button><button class="primary-timer-button" id="toggle-timer">Начать</button></div>
 <div class="timer-dots"><span class="timer-dot active"></span><span class="timer-dot"></span><span class="timer-dot"></span><span class="timer-dot"></span></div></div>
 </section>
-<section class="tab-page" id="mood"><div class="section-heading centered-heading"><div><p class="eyebrow">how are you?</p><h1>Настроение</h1><p>Эта вкладка пока ждёт своего настроения 🌱</p></div></div>
-<div class="coming-soon-card"><div>☁</div><h2>Скоро здесь будет трекер настроения</h2><p>Будем отмечать состояние, смотреть историю и замечать маленькие изменения.</p></div></section>
+<section class="tab-page" id="mood">
+<div class="section-heading mood-title-row"><div><p class="eyebrow">how are you?</p><h1>Настроение</h1></div><div class="mood-date-pill"><i class="fi fi-rr-calendar"></i><span id="mood-today-label"></span></div></div>
+<div class="mood-intro"><h2>Как вы себя чувствуете?</h2></div>
+<div class="mood-picker" id="mood-picker">
+<button class="mood-option" data-mood="great"><img src="https://cdn-icons-png.flaticon.com/512/742/742751.png" alt=""><span>Прекрасно</span></button>
+<button class="mood-option" data-mood="good"><img src="https://cdn-icons-png.flaticon.com/512/742/742774.png" alt=""><span>Хорошо</span></button>
+<button class="mood-option" data-mood="okay"><img src="https://cdn-icons-png.flaticon.com/512/742/742752.png" alt=""><span>Нормально</span></button>
+<button class="mood-option" data-mood="low"><img src="https://cdn-icons-png.flaticon.com/512/742/742753.png" alt=""><span>Усталость</span></button>
+<button class="mood-option" data-mood="sad"><img src="https://cdn-icons-png.flaticon.com/512/742/742759.png" alt=""><span>Грустно</span></button>
+<button class="mood-option" data-mood="awful"><img src="https://cdn-icons-png.flaticon.com/512/742/742760.png" alt=""><span>Тяжело</span></button>
+</div>
+<div class="mood-note-card"><div class="mood-note-heading"><i class="fi fi-rr-notebook"></i><label for="mood-note">Заметка о дне</label><span>необязательно</span></div><textarea id="mood-note" maxlength="500" placeholder="Что повлияло на ваше настроение?"></textarea><div class="mood-note-footer"><span id="mood-save-status"></span><button class="mood-save-button" id="save-mood" disabled>Сохранить настроение</button></div></div>
+<div class="mood-stats-heading"><div><p class="eyebrow">your patterns</p><h2>Статистика настроения</h2></div><div class="period-switch"><button class="period-btn active" data-period="7">7 дней</button><button class="period-btn" data-period="30">30 дней</button></div></div>
+<div class="mood-stats-grid">
+<article class="mood-panel calendar-panel"><div class="mood-panel-heading"><div><h3>Календарь настроения</h3></div><div class="calendar-controls"><button id="prev-month" aria-label="Предыдущий месяц">‹</button><strong id="month-label"></strong><button id="next-month" aria-label="Следующий месяц">›</button></div></div><div class="calendar-weekdays"><span>Пн</span><span>Вт</span><span>Ср</span><span>Чт</span><span>Пт</span><span>Сб</span><span>Вс</span></div><div class="calendar-grid" id="calendar-grid"></div><div class="calendar-legend"><span><i class="legend-dot mood-great"></i>Прекрасно</span><span><i class="legend-dot mood-good"></i>Хорошо</span><span><i class="legend-dot mood-okay"></i>Нормально</span><span><i class="legend-dot mood-low"></i>Усталость</span><span><i class="legend-dot mood-sad"></i>Грустно</span><span><i class="legend-dot mood-awful"></i>Тяжело</span></div></article>
+<article class="mood-panel"><div class="mood-panel-heading"><div><h3>Динамика настроения</h3></div></div><div class="mood-chart-wrap"><canvas id="mood-line-chart"></canvas></div></article>
+<article class="mood-panel"><div class="mood-panel-heading"><div><h3>Распределение настроения</h3></div></div><div class="mood-pie-wrap"><canvas id="mood-pie-chart"></canvas></div><div id="mood-summary" class="mood-summary"></div></article>
+
+</div>
+</section>
 </main>
-<div class="modal-overlay" id="task-modal"><div class="modal-card"><button class="modal-close" id="close-task-modal">×</button><p class="eyebrow">new task</p><h2>Добавить задачу</h2><p>Что хочется сделать сегодня?</p>
+<div class="modal-overlay" id="task-modal"><div class="modal-card"><button class="modal-close" id="close-task-modal">×</button><p class="eyebrow">new task</p><h2>Добавить задачу</h2>
 <form id="task-form"><input id="task-input" type="text" placeholder="Например: сделать домашку" maxlength="120" required><button type="submit">Добавить →</button></form></div></div>
+<div class="theme-backdrop" id="theme-backdrop" hidden></div>
+<aside class="theme-drawer" id="theme-drawer" aria-label="Выбор темы" aria-hidden="true"><div class="theme-drawer-heading"><div><p class="eyebrow">your colors</p><h2>Выберите тему</h2></div><button id="theme-close" class="theme-close" aria-label="Закрыть">×</button></div><div id="theme-options" class="theme-options"></div></aside>
+<div id="mood-toast" class="mood-toast" role="status"></div>
 {% endblock %}
