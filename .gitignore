@@ -1,8 +1,0 @@
-__pycache__/
-*.py[cod]
-.env
-data/users.json
-data/moods.json
-data/yume.db
-data/.secret_key
-instance/
